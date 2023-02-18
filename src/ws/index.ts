@@ -1,2 +1,1 @@
-export * from './ws';
-export * from './ws-native-impl';
+export * from './ws-native-async-impl';

@@ -1,7 +1,7 @@
 import type { MastoConfig } from '../config';
 import type { Http } from '../http';
 import type { Logger } from '../logger';
-import type { Ws } from '../ws';
+import type { WsNativeFactory } from '../ws';
 import { OAuthRepository } from './oauth/oauth-repository';
 import { AggregateRepository as V1AggregateRepository } from './v1';
 import { AggregateRepository as V2AggregateRepository } from './v2';
@@ -13,7 +13,7 @@ export class Client {
 
   constructor(
     readonly http: Http,
-    readonly ws: Ws,
+    readonly ws: WsNativeFactory,
     readonly config: MastoConfig,
     readonly logger?: Logger,
   ) {

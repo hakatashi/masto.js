@@ -1,5 +1,5 @@
 export * from './account-repository';
-export * from './stream-repository';
+// export * from './stream-repository';
 export * from './announcement-repository';
 export * from './app-repository';
 export * from './block-repository';
@@ -21,6 +21,7 @@ export * from './mute-repository';
 export * from './notification-repository';
 export * from './poll-repository';
 export * from './preferences-repository';
+export * from './streaming-repository';
 export * from './web-push-subscription-repository';
 export * from './report-repository';
 export * from './scheduled-status-repository';

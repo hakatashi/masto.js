@@ -1,4 +1,4 @@
-import type { v1 } from '../..';
+import type { mastodon } from '../..';
 
 export interface InstanceUsageUsers {
   /** The number of active users in the past 4 weeks. */
@@ -106,7 +106,7 @@ export interface InstanceContact {
   /** An email address that can be messaged regarding inquiries or issues. */
   email: string;
   /** An account that can be contacted natively over the network regarding inquiries or issues. */
-  account: v1.Account;
+  account: mastodon.v1.Account;
 }
 
 /**
@@ -137,5 +137,5 @@ export interface Instance {
   /** Hints related to contacting a representative of the website. */
   contact: InstanceContact;
   /** An itemized list of rules for this website. */
-  rules: v1.Rule[];
+  rules: mastodon.v1.Rule[];
 }

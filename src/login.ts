@@ -5,12 +5,9 @@ import { MastoConfig } from './config';
 import { HttpNativeImpl } from './http';
 import type { Logger } from './logger';
 import { LoggerConsoleImpl } from './logger';
-import type { v1, v2 } from './mastodon';
-import { Client } from './mastodon';
-import { InstanceRepository as V1InstanceRepository } from './mastodon/v1/repositories';
-import { InstanceRepository as V2InstanceRepository } from './mastodon/v2/repositories';
+import { mastodon } from './mastodon';
 import { SerializerNativeImpl } from './serializers';
-import { WsNativeImpl } from './ws';
+import { WsNativeFactory } from './ws';
 
 export type RequestParams = Pick<
   MastoConfigProps,
@@ -45,28 +42,28 @@ const buildHttpContext = (params: CreateClientParams): HttpContext => {
 
 export const fetchV1Instance = (
   params: RequestParams,
-): Promise<v1.Instance> => {
+): Promise<mastodon.v1.Instance> => {
   const { http, config } = buildHttpContext(params);
-  return new V1InstanceRepository(http, config).fetch();
+  return new mastodon.v1.InstanceRepository(http, config).fetch();
 };
 
 export const fetchV2Instance = (
   params: RequestParams,
-): Promise<v2.Instance> => {
+): Promise<mastodon.v2.Instance> => {
   const { http, config } = buildHttpContext(params);
-  return new V2InstanceRepository(http, config).fetch();
+  return new mastodon.v2.InstanceRepository(http, config).fetch();
 };
 
 export type CreateClientParams = Omit<MastoConfigProps, 'version'> & {
   readonly version?: string;
 };
 
-export const createClient = (params: CreateClientParams): Client => {
+export const createClient = (params: CreateClientParams): mastodon.Client => {
   const { serializer, config, logger, http } = buildHttpContext(params);
-  const ws = new WsNativeImpl(config, serializer, logger);
+  const ws = new WsNativeFactory(serializer);
 
   logger.debug('Masto.js initialised', config);
-  return new Client(http, ws, config, logger);
+  return new mastodon.Client(http, ws, config);
 };
 
 export type LoginParams = Omit<
@@ -79,7 +76,7 @@ export type LoginParams = Omit<
  *
  * Shortcut of `fetchV1Instance` and `createClient`
  */
-export const login = async (params: LoginParams): Promise<Client> => {
+export const login = async (params: LoginParams): Promise<mastodon.Client> => {
   const instance = await fetchV1Instance(params);
   return createClient({
     ...params,

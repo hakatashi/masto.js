@@ -1,4 +1,4 @@
-import type { v1 } from '../..';
+import type { mastodon } from '../..';
 
 /**
  * Represents the results of a search.
@@ -6,9 +6,9 @@ import type { v1 } from '../..';
  */
 export interface Search {
   /** Accounts which match the given query */
-  accounts: v1.Account[];
+  accounts: mastodon.v1.Account[];
   /** Statuses which match the given query */
-  statuses: v1.Status[];
+  statuses: mastodon.v1.Status[];
   /** Hashtags which match the given query */
-  hashtags: v1.Tag[];
+  hashtags: mastodon.v1.Tag[];
 }

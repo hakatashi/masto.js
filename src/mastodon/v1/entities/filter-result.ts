@@ -1,4 +1,4 @@
-import type { v2 } from '../..';
+import type { mastodon } from '../..';
 
 /**
  * Represents a filter whose keywords matched a given status.
@@ -6,7 +6,7 @@ import type { v2 } from '../..';
  */
 export interface FilterResult {
   /** The filter that was matched. */
-  filter: v2.Filter;
+  filter: mastodon.v2.Filter;
   /** The keyword within the filter that was matched. */
   keywordMatches: string[] | null;
   /** The status ID within the filter that was matched. */

@@ -3,7 +3,7 @@ import { version } from '../../decorators';
 import type { Http } from '../../http';
 import type { Logger } from '../../logger';
 import { Paginator } from '../../paginator';
-import type { Ws } from '../../ws';
+import type { WsNativeFactory } from '../../ws/ws-native-async-impl';
 import type { DefaultPaginationParams } from '../repository';
 import { AggregateRepositoryAdmin } from './aggregate-repository-admin';
 import type { Search } from './entities';
@@ -35,7 +35,7 @@ import {
   ReportRepository,
   ScheduledStatusRepository,
   StatusRepository,
-  StreamRepository,
+  StreamingRepository,
   SuggestionRepository,
   TagRepository,
   TimelineRepository,
@@ -58,7 +58,7 @@ export interface SearchParams extends DefaultPaginationParams {
 
 export class AggregateRepository {
   readonly admin: AggregateRepositoryAdmin;
-  readonly stream: StreamRepository;
+  readonly streaming: StreamingRepository;
   readonly accounts: AccountRepository;
   readonly announcements: AnnouncementRepository;
   readonly apps: AppRepository;
@@ -94,12 +94,12 @@ export class AggregateRepository {
 
   constructor(
     private readonly http: Http,
-    ws: Ws,
+    private readonly ws: WsNativeFactory,
     readonly config: MastoConfig,
     readonly logger?: Logger,
   ) {
     this.admin = new AggregateRepositoryAdmin(http, config, logger);
-    this.stream = new StreamRepository(ws, config, logger);
+    // this.stream = new StreamRepository(ws, config, logger);
     this.accounts = new AccountRepository(http, config, logger);
     this.announcements = new AnnouncementRepository(http, config, logger);
     this.apps = new AppRepository(http, config, logger);
@@ -140,6 +140,7 @@ export class AggregateRepository {
     this.email = new EmailRepository(http, config, logger);
     this.tags = new TagRepository(http, config, logger);
     this.followedTags = new FollowedTagRepository(http, config, logger);
+    this.streaming = new StreamingRepository(ws, config, logger);
   }
 
   /**
